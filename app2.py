@@ -210,4 +210,4 @@ def register():
 # EJECUCIÓN LOCAL (solo para desarrollo)
 # ------------------------------
 if __name__ == "__main__":
-    app.run()  # No debug ni host fijo
+    app.run(debug=False)  # Debug off para producción
