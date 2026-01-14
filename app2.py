@@ -206,8 +206,6 @@ def register():
 
     return render_template("ok.html"), 200
 
-# ------------------------------
-# EJECUCIÓN LOCAL (solo para desarrollo)
-# ------------------------------
 if __name__ == "__main__":
-    app.run(debug=False)  # Debug off para producción
+    app.run(debug=True)  # solo para desarrollo
+
