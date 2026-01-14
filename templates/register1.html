@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+{% set page_title = "Checkout | Kaioken" %}
+
+{% block main %}
+<div class="checkout-container">
+    <h2>Checkout</h2>
+    <div class="invoice-section">
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-tbody"></tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3"><strong>Total:</strong></td>
+                    <td id="total-amount"><strong>$0.00</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <form id="checkout-form" novalidate>
+        <h3>Shipping Information</h3>
+        
+        <div class="form-group">
+            <label for="address">Shipping Address <span class="required">*</span></label>
+            <textarea id="address" name="address" placeholder="Enter your complete shipping address..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="contact-type">Contact Method <span class="required">*</span></label>
+            <select id="contact-type" name="contact_type">
+                <option value="">-- Select contact method --</option>
+                <option value="email">Email</option>
+                <option value="whatsapp">WhatsApp</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label id="contact-info-label" for="contact-info" style="display: none;">Contact Information <span class="required">*</span></label>
+            
+            <div id="phone-container" style="display: none;">
+                <select id="country-code" class="country"></select>
+                <input type="tel" id="phone-number" inputmode="numeric" placeholder="1234567890">
+            </div>
+
+            <input type="email" id="email-input" style="display: none;" placeholder="example@email.com">
+        </div>
+
+        <input type="hidden" id="buyer-id">
+
+        <button type="submit" class="button-payment">Submit Order</button>
+    </form>
+</div>
+
+<script>
+    const RAW_CART_ITEMS = {{ cart_items | tojson }};
+
+function groupCartItems(items) {
+    const grouped = {};
+    items.forEach(item => {
+        const key = item.id || item.name;
+        if (grouped[key]) {
+            grouped[key].quantity += item.quantity;
+            grouped[key].subtotal = grouped[key].quantity * grouped[key].unit_price;
+        } else {
+            grouped[key] = {
+                id: item.id,
+                name: item.name,
+                quantity: item.quantity,
+                unit_price: item.unit_price,
+                subtotal: item.quantity * item.unit_price
+            };
+        }
+    });
+    return Object.values(grouped);
+}
+
+const CART_ITEMS = groupCartItems(RAW_CART_ITEMS);
+
+function renderInvoice() {
+    const tbody = document.getElementById('invoice-tbody');
+    tbody.innerHTML = '';
+    let total = 0;
+    CART_ITEMS.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>${item.unit_price.toFixed(2)}</td>
+            <td>${item.subtotal.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+        total += item.subtotal;
+    });
+    document.getElementById('total-amount').innerHTML = `<strong>${total.toFixed(2)}</strong>`;
+}
+renderInvoice();
+
+function generateBuyerID() {
+    return `BUYER${Date.now()}${Math.floor(Math.random()*10000)}`;
+}
+document.getElementById('buyer-id').value = generateBuyerID();
+
+async function loadCountries() {
+    try {
+        const res = await fetch("{{ url_for('static', filename='data/countries.json') }}");
+        const countries = await res.json();
+        const select = document.getElementById("country-code");
+        select.innerHTML = "";
+        countries.forEach(c => {
+            const option = document.createElement("option");
+            option.value = c.code;
+            option.dataset.digits = c.digits;
+            option.dataset.example = c.example;
+            option.textContent = `${c.flag} ${c.code}`; 
+            select.appendChild(option);
+        });
+    } catch (err) {
+        console.error("Error loading countries.json:", err);
+    }
+}
+loadCountries();
+
+const contactType = document.getElementById('contact-type');
+const label = document.getElementById('contact-info-label');
+const phoneContainer = document.getElementById('phone-container');
+const emailInput = document.getElementById('email-input');
+const phoneNumberInput = document.getElementById('phone-number');
+const countrySelect = document.getElementById('country-code');
+
+contactType.addEventListener('change', function() {
+    label.style.display = 'none';
+    phoneContainer.style.display = 'none';
+    emailInput.style.display = 'none';
+    
+    this.style.border = '';
+    emailInput.style.border = '';
+    phoneNumberInput.style.border = '';
+
+    if (this.value === 'email') {
+        label.innerHTML = 'Email Address <span class="required">*</span>';
+        label.style.display = 'block';
+        emailInput.style.display = 'block';
+    } else if (this.value === 'whatsapp') {
+        label.innerHTML = 'WhatsApp Number <span class="required">*</span>';
+        label.style.display = 'block';
+        phoneContainer.style.display = 'flex';
+        const maxDigits = parseInt(countrySelect.selectedOptions[0]?.dataset.digits || 15);
+        phoneNumberInput.value = '';
+        phoneNumberInput.maxLength = maxDigits;
+    }
+});
+
+phoneNumberInput.addEventListener('input', function() {
+    const maxLength = this.maxLength || 15;
+    const selectedOption = countrySelect.selectedOptions[0];
+    const requiredDigits = parseInt(selectedOption?.dataset.digits || maxLength);
+    
+    this.value = this.value.replace(/[^0-9]/g,'').slice(0, maxLength);
+    
+    const currentLength = this.value.length;
+    
+    if (currentLength > 0 && currentLength !== requiredDigits) {
+        this.style.border = '2px solid #dc3545';
+    } else {
+        this.style.border = '';
+    }
+});
+
+countrySelect.addEventListener('change', function() {
+    const selectedOption = this.selectedOptions[0];
+    const maxDigits = parseInt(selectedOption?.dataset.digits || 15);
+    phoneNumberInput.maxLength = maxDigits;
+    phoneNumberInput.value = '';
+    phoneNumberInput.style.border = '';
+});
+
+emailInput.addEventListener('input', function() {
+    if (this.value.trim() && !this.value.includes('@')) {
+        this.style.border = '2px solid #dc3545';
+    } else {
+        this.style.border = '';
+    }
+});
+
+document.getElementById('address').addEventListener('input', function() {
+    if (this.value.trim()) {
+        this.style.border = '';
+    }
+});
+
+document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const buyerID = document.getElementById('buyer-id').value;
+    const addressField = document.getElementById('address');
+    const address = addressField.value.trim();
+    const contactMethod = contactType.value;
+    let contactInfo = '';
+    let hasError = false;
+
+    if (!contactMethod) { 
+        contactType.style.border = '2px solid #dc3545';
+        hasError = true;
+    } else {
+        contactType.style.border = '';
+    }
+
+    if (!address) { 
+        addressField.style.border = '2px solid #dc3545';
+        hasError = true;
+    } else {
+        addressField.style.border = '';
+    }
+
+    if (contactMethod === 'email') {
+        contactInfo = emailInput.value.trim();
+        if (!contactInfo || !contactInfo.includes('@')) { 
+            emailInput.style.border = '2px solid #dc3545';
+            hasError = true;
+        } else {
+            emailInput.style.border = '';
+        }
+    } else if (contactMethod === 'whatsapp') {
+        const selectedOption = countrySelect.selectedOptions[0];
+        const requiredDigits = parseInt(selectedOption?.dataset.digits || 15);
+        const phoneNumber = phoneNumberInput.value.trim();
+        
+        if (!phoneNumber || phoneNumber.length !== requiredDigits) {
+            phoneNumberInput.style.border = '2px solid #dc3545';
+            hasError = true;
+        } else {
+            phoneNumberInput.style.border = '';
+            contactInfo = countrySelect.value + phoneNumber;
+        }
+    }
+
+    if (hasError) {
+        return;
+    }
+
+    const orderData = {
+        buyer_billing_id: buyerID,
+        chosen_product: CART_ITEMS,
+        shipping_address: address,
+        contact_method: contactMethod,
+        contact_info: contactInfo
+    };
+
+    console.log('📦 ORDER JSON SENT TO SERVER:');
+    console.log(JSON.stringify(orderData, null, 2));
+
+    try {
+        await fetch('/confirm_payment', { method:'POST', credentials:'same-origin' });
+
+        const response = await fetch('/submit', {
+            method: 'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body: JSON.stringify(orderData),
+            credentials:'same-origin'
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server error:', errorText);
+            return;
+        }
+
+        console.log('Order submitted! Cart cleared');
+        const htmlResponse = await response.text();
+        document.open();
+        document.write(htmlResponse);
+        document.close();
+
+    } catch (err) {
+        console.error('Network error:', err);
+    }
+});
+</script>
+{% endblock %}

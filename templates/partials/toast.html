@@ -1,0 +1,22 @@
+<div id="toast-container" class="toast-container"></div>
+<script>
+function showToast(message, duration = 2000) {
+  const container = document.getElementById('toast-container');
+  if(!container) return;
+
+  const toast = document.createElement('div');
+  toast.classList.add('toast');
+  toast.textContent = message;
+
+  toast.onclick = () => fadeOutToast(toast);
+
+  container.appendChild(toast);
+
+  setTimeout(() => fadeOutToast(toast), duration);
+}
+
+function fadeOutToast(toast) {
+  toast.classList.add('fade-out');
+  toast.addEventListener('animationend', () => toast.remove());
+}
+</script>

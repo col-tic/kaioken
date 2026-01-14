@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% set page_title = "Cart | Kaioken" %}
+
+{% block main %}
+<div class="cart">
+<h2>Your Cart</h2>
+
+{% if cart_items %}
+
+<div class="cart-items">
+  {% for item in cart_items %}
+  <div class="cart-item" data-id="{{ item.id }}">
+
+    <div class="cart-image">
+      <img src="{{ item.img }}" alt="{{ item.name }}" class="cart-item-img">
+    </div>
+
+    <div class="cart-item-info">
+      <h3>{{ item.name }}</h3>
+
+      <p class="unit-price" data-price="{{ '%.2f' % item.unit_price }}">
+        Unit Price: ${{ '%.2f' % item.unit_price }}
+      </p>
+
+      <div class="qty-controls">
+        <button class="qty-btn decrease" data-id="{{ item.id }}">−</button>
+        <span class="qty-value">{{ item.quantity }}</span>
+        <button class="qty-btn increase" data-id="{{ item.id }}">+</button>
+      </div>
+    </div>
+
+    <div class="cart-subtotal">
+      <p class="subtotal">
+        Subtotal: $<span>{{ '%.2f' % item.subtotal }}</span>
+      </p>
+    </div>
+
+    <button class="close-modal" data-id="{{ item.id }}">&times;</button>
+
+  </div>
+  {% endfor %}
+</div>
+
+<div class="cart-summary">
+  <strong>Total:</strong>
+  <span id="cart-total">${{ '%.2f' % total }}</span>
+</div>
+<!-- PAY BUTTON -->
+<div class="pay-container">
+  <a href="{{ url_for('payment') }}" class="button-payment">
+    PAYMENT
+  </a>
+</div>
+
+
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  function updateCart(productId, quantity, item) {
+    fetch("/update_cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product_id: productId, quantity })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(!data.success) return;
+
+      const unitPrice = parseFloat(item.querySelector(".unit-price").dataset.price);
+      const subtotalEl = item.querySelector(".subtotal span");
+      subtotalEl.textContent = (unitPrice * quantity).toFixed(2);
+
+      let total = 0;
+      document.querySelectorAll(".subtotal span").forEach(s => {
+        total += parseFloat(s.textContent);
+      });
+
+      document.getElementById("cart-total").textContent = "$" + total.toFixed(2);
+    });
+  }
+
+  document.querySelectorAll(".increase").forEach(btn => {
+    btn.onclick = () => {
+      const item = btn.closest(".cart-item");
+      const qtyEl = item.querySelector(".qty-value");
+      let q = parseInt(qtyEl.textContent);
+      q++;
+      qtyEl.textContent = q;
+      updateCart(btn.dataset.id, q, item);
+    }
+  });
+
+  document.querySelectorAll(".decrease").forEach(btn => {
+    btn.onclick = () => {
+      const item = btn.closest(".cart-item");
+      const qtyEl = item.querySelector(".qty-value");
+      let q = parseInt(qtyEl.textContent);
+      if(q > 1){
+        q--;
+        qtyEl.textContent = q;
+        updateCart(btn.dataset.id, q, item);
+      }
+    }
+  });
+
+  document.querySelectorAll(".close-modal").forEach(btn => {
+    btn.onclick = () => {
+      fetch(`/remove_from_cart/${btn.dataset.id}`)
+      .then(() => location.reload());
+    }
+  });
+
+});
+</script>
+
+{% endblock %}

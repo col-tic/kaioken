@@ -1,0 +1,132 @@
+.quantity-selector{
+  display:flex;
+  flex-wrap: wrap;
+  align-items:center;
+  gap:1rem;
+  background:#f3f3f3;
+  border-radius:9999px;
+  padding:.5rem 1rem;
+  border:1px solid rgba(0,0,0,.15);
+}
+
+.quantity-selector button{
+  border:none;
+  background:#ffffff;
+  border-radius:50%;
+  width:28px;
+  height:28px;
+  font-size:1.2rem;
+  cursor:pointer;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+  flex-shrink:0; 
+}
+
+.quantity-selector span{
+  font-size:1.2rem;
+  font-weight:bold;
+  flex-shrink:0;
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  color: var(--gray);
+  padding: 2rem;
+  border-radius: .75rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 700px;
+  overflow-y: auto;
+  position: relative;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.modal-price{
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 2rem);
+  padding: 2rem;
+}
+
+.buttons{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.button{
+  border: 1px solid rgb(120, 120, 120)!important;
+  flex-shrink:0;
+}
+
+.button-alt{
+  background-color: rgb(1, 91, 1);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid rgb(120, 120, 120);
+  border-radius: 9999px;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  transition: background-color 0.3s;
+  flex-shrink:0;
+}
+
+.button:hover {
+  background-color: #991b1b;
+}
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 90;
+}
+
+.image-selector{
+  display:flex;
+  flex-wrap: wrap; 
+  gap:.5rem;
+  margin:1rem 0;
+  justify-content: center;
+}
+
+.image-selector img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:.25rem;
+  cursor:pointer;
+  opacity:.6;
+  flex-shrink:0;
+}
+
+.image-selector img.active{
+  outline:2px solid black;
+  opacity:1;
+}
+
+.close-modal{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:none;
+  border:none;
+  color:black;
+  font-size:2rem;
+  cursor:pointer;
+}
+
+.view-more{
+  font-style: italic;
+  text-decoration: underline;
+  cursor: pointer;
+}

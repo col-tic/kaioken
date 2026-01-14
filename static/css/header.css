@@ -1,0 +1,38 @@
+  .header {
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: var(--gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    transition: transform 0.5s;
+  }
+
+  .header.hide {
+    transform: translateY(-100%);
+  }
+
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .menu-btn {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }

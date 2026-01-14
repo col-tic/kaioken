@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% set page_title = "Home | Kaioken" %}
+
+{% block main %}
+
+<section class="section section-hero">
+  <video class="section-video" autoplay loop muted>
+    <source src="{{ url_for('static', filename='videos/vid1.mp4') }}" type="video/mp4">
+  </video>
+
+  <div class="section-overlay">
+    <img src="{{ url_for('static', filename='img/header.png') }}" alt="Header" class="hero-logo">
+    <h2 class="hero-title">THE ULTIMATE MIND AND BODY ENHANCER</h2>
+  </div>
+</section>
+
+<section class="section section-text">
+  <p>
+    Kaioken is a unique blend of L-Carnitine and Choline that improves energy utilization and amplifies nervous system functioning.
+  </p>
+</section>
+
+<section id="sec2" class="section section-overlap">
+  <div class="section-bg-wrapper">
+    <img src="{{ url_for('static', filename='img/img2.avif') }}" alt="" class="section-bg">
+  </div>
+
+  <div class="section-filter"></div>
+
+  <div class="section-content" id="content-sec2">
+    <h2>CARNITINE</h2>
+    <ul>
+      <li><span>1.</span> Enhances fatty acid oxidation in muscles</li>
+      <li><span>2.</span> Decreases muscle glycogen depletion</li>
+      <li><span>3.</span> Shifts substrate use in muscle from fatty acids to glucose</li>
+      <li><span>4.</span> Replaces muscle carnitine after redistribution into acylcarnitine</li>
+      <li><span>5.</span> Improves resistance to muscle fatigue</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sec3" class="section section-overlap">
+  <div class="section-bg-wrapper">
+    <img src="{{ url_for('static', filename='img/img3.avif') }}" alt="" class="section-bg">
+  </div>
+
+  <div class="section-filter"></div>
+
+  <div class="section-content" id="content-sec3">
+    <h2>CHOLINE</h2>
+    <ul>
+      <li><span>1.</span> Improves muscular and cognitive functioning</li>
+      <li><span>2.</span> Aids in systemic lipid metabolism and fat loss</li>
+      <li><span>3.</span> Increases acetylcholine, enhancing performance</li>
+      <li><span>4.</span> Assists in fat metabolism in the liver, reducing liver stress</li>
+      <li><span>5.</span> Systemically aids in lowering inflammatory markers</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sec4" class="section section-overlap">
+  <div class="section-bg-wrapper">
+    <img src="{{ url_for('static', filename='img/img3.jpg') }}" alt="" class="section-bg">
+  </div>
+
+  <div class="section-filter"></div>
+
+  <div class="section-content" id="content-sec4">
+    <img src="{{ url_for('static', filename='img/header.png') }}" alt="hero-logo" class="hero-logo">
+  </div>
+</section>
+
+<script>
+  function updateScrollEffects() {
+    const SECTIONS = ['sec2', 'sec3', 'sec4'];
+    const WINDOW_HEIGHT = window.innerHeight;
+    const SPEED_FACTOR = 0.6;
+    const MOVE_DISTANCE = 300;
+    const OPACITY_MULTIPLIER = 1.2;
+
+    SECTIONS.forEach((sectionId, index) => {
+      const currentSection = document.getElementById(sectionId);
+      const content = document.getElementById('content-' + sectionId);
+      if (!currentSection || !content) return;
+
+      const nextSectionId = SECTIONS[index + 1];
+
+      if (nextSectionId) {
+        const nextSection = document.getElementById(nextSectionId);
+        const nextRect = nextSection.getBoundingClientRect();
+
+        let progress = 0;
+
+        if (nextRect.top < WINDOW_HEIGHT) {
+          progress = (WINDOW_HEIGHT - nextRect.top) / (WINDOW_HEIGHT * SPEED_FACTOR);
+          progress = Math.max(0, Math.min(1, progress));
+        }
+
+        const moveDistance = progress * MOVE_DISTANCE;
+        const opacity = Math.max(0, 1 - (progress * OPACITY_MULTIPLIER));
+
+        content.style.transform = `translate(-50%, calc(-50% - ${moveDistance}px))`;
+        content.style.opacity = opacity;
+      } else {
+        content.style.transform = 'translate(-50%, -50%)';
+        content.style.opacity = '1';
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateScrollEffects);
+  window.addEventListener('load', updateScrollEffects);
+</script>
+
+{% endblock %}

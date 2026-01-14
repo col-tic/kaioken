@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "_default/head.html" %}
+<body>
+  {% include "_default/header.html" %}
+  {% include "partials/toast.html" %}
+
+  <main>
+    {% block main %}{% endblock %}
+  </main>
+
+  {% include "_default/footer.html" %}
+
+  <script src="{{ url_for('static', filename='js/scroll.js') }}"></script>
+</body>
+</html>

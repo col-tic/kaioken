@@ -1,0 +1,64 @@
+/* Contenedor en la parte superior */
+.toast-container {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Cada toast individual */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  background: #d32f2f;       /* rojo profesional */
+  color: #ffffff;
+  padding: 0.85rem 1.35rem;
+
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-weight: 500;
+  letter-spacing: .2px;
+
+  opacity: 0;
+  transform: translateY(-90px) scale(.96);
+  animation: slide-in .45s forwards cubic-bezier(.2,.8,.25,1);
+
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Animación de entrada */
+@keyframes slide-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animación de salida */
+.toast.fade-out {
+  animation: slide-out .35s forwards cubic-bezier(.55,0,.85,.25);
+}
+
+@keyframes slide-out {
+  to {
+    opacity: 0;
+    transform: translateY(-80px) scale(.94);
+  }
+}
+
+/* Icono opcional dentro del toast */
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}

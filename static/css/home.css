@@ -1,0 +1,136 @@
+
+  #content-sec4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .section-hero {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1;
+  }
+
+  .section-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .section-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    width: 300px;
+  }
+
+  .hero-title {
+    color: white;
+    font-size: clamp(2rem, 2.5vw, 3rem);
+    margin-top: 10px;
+  }
+
+  .section-text {
+    position: sticky;
+    top: 0;
+    height: 40vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .section-text p {
+    color: black;
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+    line-height: clamp(1, 0.5vw + 0.9, 1.3);
+    padding: 20px;
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .section-overlap {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  #sec2 { z-index: 20; }
+  #sec3 { z-index: 30; }
+  #sec4 { z-index: 40; }
+
+  .section-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .section-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .section-filter {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  .section-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    z-index: 3;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+  }
+
+  .section-content ul {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    line-height: clamp(1.4, 1vw + 1.1, 1.8);
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 1200px;
+  }
+
+  .section-content ul li {
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .section-content ul li span {
+    font-size: clamp(2rem, 3vw, 3rem);
+    margin-right: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+  }

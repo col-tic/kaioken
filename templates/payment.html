@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% set page_title = "Payment | Kaioken" %}
+
+{% block main %}
+
+
+    <h2>Confirm Payment</h2>
+
+    <ul id="cart-summary">
+        {% for item in cart_items %}
+        <li>{{ item.name }} x{{ item.quantity }} = ${{ "%.2f"|format(item.unit_price * item.quantity) }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Total: $<span id="total-amount">{{ "%.2f"|format(total) }}</span></p>
+
+    <button class="button-alt" id="confirm-payment-btn">Confirm Payment</button>
+
+    <div id="success-message"></div>
+
+    <script>
+document.getElementById("confirm-payment-btn").addEventListener("click", async () => {
+    const payload = { confirm: true }; // solo necesitamos enviar algo
+    console.log("Sending cart confirmation to Flask:", payload);
+
+    const res = await fetch("/confirm_payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    console.log("Flask response:", data);
+
+    if (res.ok) {
+        document.getElementById("success-message").textContent =
+            `${data.message} Total paid: $${data.total_amount.toFixed(2)}.`;
+        document.getElementById("cart-summary").innerHTML = "";
+        document.getElementById("total-amount").textContent = "0.00";
+    } else {
+        document.getElementById("success-message").textContent = "Error processing payment";
+    }
+});
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+:root {
+  --red: #b91c1c;
+  --gray: #242323;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Niveau', sans-serif;
+  line-height: 1.5;
+  color: #000;
+  background-color: #fff;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+@font-face {
+  font-family: 'Niveau';
+  src: url('../fonts/file.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Niveau', sans-serif;
+  font-weight: normal;
+}
+h2{
+  font-size: clamp(3.5rem, 4vw + 1rem, 5rem);
+  letter-spacing: clamp(16px, 1.5vw + 6px, 20px);
+  margin-bottom: 2rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+section {
+  position: relative;
+}
+
+main{
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+.button {
+      background-color: var(--red);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: 1px solid white;
+      border-radius: 9999px;
+      cursor: pointer;
+      letter-spacing: 0.15em;
+      transition: background-color 0.3s;
+    }
+.button:hover {
+      background-color: #991b1b;
+    }
+nav{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  text-align:center;
+  font-size:1.5rem;
+  margin-top:2rem;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  font-size: 2rem;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}

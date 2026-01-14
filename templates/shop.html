@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% set page_title = "Shop | Kaioken" %}
+
+{% block main %}
+<h2>Shop</h2>
+
+<div class="products-grid">
+{% include "partials/cards.html" %}
+</div>
+
+{% include "partials/modal.html" %}
+
+
+{% endblock %}
+
+

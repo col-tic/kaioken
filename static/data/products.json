@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Protein Powder",
+    "price": "$49.99",
+    "imgs": ["img/camisa.webp","img/camisa2.jpeg"],
+    "description": "Protein Powder improves muscle recovery and boosts energy. Recommended usage: 1 scoop daily.",
+    "details": "Instructions: Mix one scoop with 200ml water. Consume post-workout. Avoid exceeding daily dosage."
+  },
+  {
+    "id": 2,
+    "name": "Dumbbell Set",
+    "price": "$79.99",
+    "imgs": ["img/camisa.webp","img/camisa2.jpeg"],
+    "description": "Dumbbells perfect for strength training and toning. Adjustable weights included.",
+    "details": "Instructions: Use according to weight level and fitness plan. Store safely after use."
+  },
+  {
+    "id": 3,
+    "name": "Yoga Mat",
+    "price": "$29.99",
+    "imgs": ["img/camisa.webp","img/camisa2.jpeg"],
+    "description": "High-quality non-slip yoga mat for daily practice and stretching.",
+    "details": "Care Instructions: Clean with damp cloth. Roll and store in a dry place."
+  },
+  {
+    "id": 4,
+    "name": "Resistance Bands",
+    "price": "$19.99",
+    "imgs": ["img/camisa.webp","img/camisa2.jpeg"],
+    "description": "Set of resistance bands for strength and mobility exercises.",
+    "details": "Instructions: Follow exercise guide included. Do not overstretch bands."
+  }
+]

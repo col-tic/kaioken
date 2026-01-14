@@ -1,0 +1,50 @@
+<div id="lateralBarOverlay" class="lateralBar-overlay"></div>
+
+<div id="lateralBar" class="lateralBar-container">
+  
+  <div class="lateralBar-buttons">
+      <a href="{{ url_for('cart') }}" class="lateralBar-cart">
+          <img src="{{ url_for('static', filename='img/handbag.svg') }}" alt="Cart">
+          {% if session.get('cart') and session['cart']|length > 0 %}
+          <span class="cart-badge">{{ session['cart']|length }}</span>
+          {% endif %}
+      </a>
+    <button class="button" id="login">LOGIN</button>
+    <button class="button" id="close">X</button>
+  </div>
+
+  <div class="lateralBar-header">
+    <img src="{{ url_for('static', filename='img/header.png') }}" alt="Menu Logo" class="logo">
+  </div>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/shop">Shop</a>
+    <a href="/contact">Contact</a>
+    <a href="/apparel">Apparel</a>
+  </nav>
+
+</div>
+
+<script>
+  const lateralBarBtn = document.getElementById('menu-trigger');
+  const lateralBar = document.getElementById('lateralBar');
+  const lateralBarClose = document.getElementById('close');
+  const lateralBarOverlay = document.getElementById('lateralBarOverlay');
+
+  lateralBarBtn.addEventListener('click', () => {
+    lateralBar.classList.add('active');
+    lateralBarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeLateralBar() {
+    lateralBar.classList.remove('active');
+    lateralBarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lateralBarClose.addEventListener('click', closeLateralBar);
+  lateralBarOverlay.addEventListener('click', closeLateralBar);
+</script>
+

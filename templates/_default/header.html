@@ -1,0 +1,28 @@
+<header id="main-header" class="header">
+  <a href="/">
+      <img src="{{ url_for('static', filename='img/header.png') }}" alt="Header" class="logo">
+  </a>
+
+
+  <div class="header-actions">
+    <button class="button">BUY NOW</button>
+    <button id="menu-trigger" class="menu-btn">&#9776;</button>
+  </div>
+
+  {% include "partials/lateralBar.html" %}
+</header>
+
+<script>
+  const header = document.getElementById('main-header');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    if (current > lastScroll && current > 80) {
+      header.classList.add('hide');
+    } else {
+      header.classList.remove('hide');
+    }
+    lastScroll = current;
+  });
+</script>

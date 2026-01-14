@@ -1,0 +1,49 @@
+{% for product in products %}
+<div class="card"
+     data-id="{{ product.id }}"
+     data-name="{{ product.name }}"
+     data-price="{{ product.price }}"
+     data-description="{{ product.description }}"
+     data-details="{{ product.details }}"
+     data-images='[
+      {% for img in product.imgs %}
+        "{{ url_for("static", filename=img) }}"{% if not loop.last %},{% endif %}
+      {% endfor %}
+     ]'>
+
+  <div class="image-container">
+    <img src="{{ url_for('static', filename=product.imgs[0]) }}"
+         alt="{{ product.name }}"
+         class="product-image">
+    <div class="quick-view-overlay">Quick View</div>
+  </div>
+
+  <div class="product-info">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-price">{{ product.price }}</p>
+  </div>
+
+</div>
+{% endfor %}
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+      const product = {
+        id: Number(card.dataset.id),
+        name: card.dataset.name,
+        price: card.dataset.price,
+        description: card.dataset.description,
+        details: card.dataset.details,
+        images: JSON.parse(card.dataset.images)
+      };
+
+      // Dispara evento para abrir modal
+      window.dispatchEvent(
+        new CustomEvent("openProductModal", { detail: product })
+      );
+    });
+  });
+});
+</script>

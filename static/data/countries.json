@@ -1,0 +1,51 @@
+[
+  {
+    "name": "United States",
+    "flag": "🇺🇸",
+    "code": "+1",
+    "digits": 10,
+    "example": "1234567890"
+  },
+  {
+    "name": "Mexico",
+    "flag": "🇲🇽",
+    "code": "+52",
+    "digits": 10,
+    "example": "1234567890"
+  },
+  {
+    "name": "Colombia",
+    "flag": "🇨🇴",
+    "code": "+57",
+    "digits": 10,
+    "example": "1234567890"
+  },
+  {
+    "name": "Argentina",
+    "flag": "🇦🇷",
+    "code": "+54",
+    "digits": 10,
+    "example": "1234567890"
+  },
+  {
+    "name": "Spain",
+    "flag": "🇪🇸",
+    "code": "+34",
+    "digits": 9,
+    "example": "123456789"
+  },
+  {
+    "name": "Peru",
+    "flag": "🇵🇪",
+    "code": "+51",
+    "digits": 9,
+    "example": "123456789"
+  },
+  {
+    "name": "Chile",
+    "flag": "🇨🇱",
+    "code": "+56",
+    "digits": 9,
+    "example": "123456789"
+  }
+]
