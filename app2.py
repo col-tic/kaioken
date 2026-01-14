@@ -6,13 +6,13 @@ from flask import Flask, render_template, url_for, session, request, redirect, j
 from dotenv import load_dotenv
 load_dotenv()
 
+
+# ------------------------------
+app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 # ------------------------------
 # CONFIGURACIÓN DE LA APP
-# ------------------------------
-app = Flask(__name__)
-
 # Secret key segura desde variable de entorno
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 
